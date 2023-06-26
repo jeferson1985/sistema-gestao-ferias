@@ -162,6 +162,7 @@ import { addMessage } from "@/store/alert";
 import { title } from "@/store/title";
 import api from "@/services/api";
 import CirclesLoader from "@/components/CirclesLoader.vue";
+import VueCookies from 'vue-cookies'
 import moment from "moment";
 
 export default {
@@ -289,7 +290,7 @@ export default {
           data_criacao: this.data_criacao,
           intervalos: JSON.stringify(this.invertedIntervalos),
         };
-        const token = document.cookie;
+        const token = VueCookies.get('csrftoken')
         await api.post(`/api/v1/solicitacao/`, data, {
           headers: {
             "X-CSRFToken": token,

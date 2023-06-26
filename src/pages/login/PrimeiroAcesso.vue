@@ -1,7 +1,10 @@
 <template>
   <BasePage>
     <div class="flex justify-center items-center bg-gray-100 w-full">
-      <form class="flex flex-col w-10/12 sm:w-1/2" @submit="loginFirst">
+      <div class="absolute right-4 md:right-24 top-6">
+        <FlashMessages />
+      </div>
+      <form class="flex flex-col w-10/12 sm:w-1/2" @submit.prevent="loginFirst">
         <div class="flex flex-col sm:items-center mb-6">
           <div class="flex flex-col sm:items-center">
             <h1 class="text-lg md:text-2xl lg:text-3xl text-orange-400 font-semibold md:font-normal">
@@ -18,7 +21,7 @@
           <div class="flex items-center border-b-2 border-gray-300 focus-within:border-gray-600">
             <input v-model="matricula"
               class="peer w-full bg-transparent focus:outline-none text-lg sm:text-xl py-1 text-gray-900"
-              placeholder="Digite sua matrícula" type="number" required />
+              placeholder="Digite sua matrícula" type="text" required />
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 sm:h-8 w-6 sm:w-8 text-gray-500 peer-focus:text-gray-900"
               viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd"
@@ -56,13 +59,15 @@
 
 <script>
 import BasePage from "./BasePage.vue";
+import FlashMessages from "@/components/FlashMessages.vue";
 import api from "@/services/api";
 import { addMessage } from "@/store/alert";
 import CirclesLoader from "@/components/CirclesLoader.vue";
+import VueCookies from 'vue-cookies'
 
 export default {
   name: "PrimeiroAcesso",
-  components: { BasePage, CirclesLoader },
+  components: { BasePage, CirclesLoader, FlashMessages },
   inject: ["$api"],
   data: () => ({
     showError: false,
@@ -78,20 +83,20 @@ export default {
   },
   methods: {
     async loginFirst() {
-      this.loading = true
+      // this.loading = true
       try {
-        // const email = this.email.replace(/\s/g, ''); // Remove os espaços
-        // const checkEmail = /^[\w.+-]+@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+        const email = this.email.replace(/\s/g, ''); // Remove os espaços
+        const checkEmail = /^[\w.+-]+@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
-        // if (!checkEmail.test(email)) {
-        //   console.log('if')
+        if (!checkEmail.test(email)) {
+          console.log('if')
 
-        //   // Verifica se email segue o formato de const checkEmai
-        //   addMessage("error", "Informe um email válido");
-        //   this.loading = false;
-        //   return;
-        // }
-        const token = document.cookie;
+          // Verifica se email segue o formato de const checkEmai
+          addMessage("error", "Informe um email válido");
+          this.loading = false;
+          return;
+        }
+        const token = VueCookies.get('csrftoken')
         const data = await api.post(
           "/api/v1/accounts/first_login/",
           {
@@ -105,16 +110,14 @@ export default {
             },
           }
         );
-        console.log('aquiiii', data)
-        this.showMessage = data.data
-        console.log('this', this.showMessage)
+        this.showMessage = data
         addMessage("success", this.showMessage);
         this.clearData();
         this.$router.push({ path: "/" });
       } catch (error) {
-        addMessage("error", this.showMessage);
+        addMessage("error", error.response.data.non_field_errors[0]);
       }
-      this.loading = false
+      // this.loading = false
     },
     clearData() {
       this.email = "";

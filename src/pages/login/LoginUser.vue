@@ -112,6 +112,7 @@ import CirclesLoader from "@/components/CirclesLoader.vue";
 import { getSession } from "@/store/auth.js";
 import { addMessage } from "@/store/alert";
 import { getUsers } from "@/store/auth.js"
+import VueCookies from 'vue-cookies'
 import moment from "moment";
 import api from "@/services/api";
 import FlashMessages from "@/components/FlashMessages.vue";
@@ -141,7 +142,7 @@ export default {
     async login() {
       this.loading = true;
       try {
-        const token = document.cookie.match(/XSRF-TOKEN=([^;]+)/)[1];
+        const token = VueCookies.get('csrftoken')
         const response = await api.post(
           "/api/v1/accounts/login/",
           {
@@ -187,7 +188,7 @@ export default {
       this.session_data = await getSession();
       if (this.session_data.isAuthenticated == true) {
         try {
-          const token = document.cockies.match(/XSRF-TOKEN=([^;]+)/)[1];
+          const token = VueCookies.get('csrftoken')
           await api.get(`/api/v1/accounts/logout/`,
             {
               headers: {
@@ -216,7 +217,7 @@ export default {
           return;
         }
 
-        const token = document.cookie.match(/XSRF-TOKEN=([^;]+)/)[1];
+        const token = VueCookies.get('csrftoken')
         const response = await api.post(
           `/api/v1/accounts/password_reset/`,
           {

@@ -74,8 +74,7 @@
 import BasePage from "./BasePage.vue";
 import api from "@/services/api";
 import { addMessage } from "@/store/alert";
-import { getUsers } from "@/store/auth.js"
-import moment from "moment";
+import VueCookies from 'vue-cookies'
 import CirclesLoader from "@/components/CirclesLoader.vue";
 
 export default {
@@ -91,7 +90,7 @@ export default {
   methods: {
     async passwordAlter() {
       this.loading = true;
-      const token = document.cookie;
+      const token = VueCookies.get('csrftoken')
       let isPasswordValid = true;
 
       if (this.new_password_confirm !== this.new_password) {
@@ -136,56 +135,6 @@ export default {
       }
 
       this.loading = false;
-    },
-    // async passwordAlter() {
-    //   try {
-    //     this.loading = true;
-    //     const token = document.cookie;
-    //     if (this.new_password_confirm === this.new_password) {
-    //       const trimmed_new_password = this.new_passwordreplace(/\s/g, '')
-    //       const trimmed_confirm_password = this.new_password_confirm.replace(/\s/g, '')
-
-    //       const password_pattern = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()])[A-Za-z\d!@#$%^&*()]{8,}$/;
-    //       if (!password_pattern.test(trimmed_new_password)) {
-    //         addMessage('error', 'A senha não atende ao padrão mínimo de segurança.');
-    //         this.clearData();
-    //         return;
-    //       }
-    //       await api.patch(
-    //         "/api/v1/accounts/password_change/",
-    //         {
-    //           old_password: this.old_password,
-    //           new_password: trimmed_new_password,
-    //           new_password_confirm: trimmed_confirm_password,
-    //         },
-    //         {
-    //           headers: {
-    //             "X-CSRFToken": token,
-    //             "Content-Type": "application/x-www-form-urlencoded",
-    //           },
-    //         }
-    //       );
-    //     } else {
-    //       addMessage('error', 'Os campos de senha precisam ser iguais')
-    //       this.clearData()
-    //     }
-    //     addMessage("success", "Senha alterada com sucesso!");
-    //     this.clearData();
-    //     this.$router.push({ path: "/" });
-    //   } catch (error) {
-    //     this.clearData();
-    //     addMessage("error", "Erro ao alterar senha!");
-    //   }
-    //   this.loading = false;
-    // },
-    async changePassword() {
-      const { user_info } = await getUsers();
-      const last_password_change = moment(user_info.data_senha, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY');
-      const date = moment();
-      const diff = date.diff(last_password_change, 'days')
-      if (diff > 180) {
-        this.attention = "Alteração de senha obrigatório!"
-      }
     },
     clearData() {
       this.old_password = "";

@@ -71,9 +71,10 @@
 import api from "@/services/api";
 import { addMessage } from "@/store/alert";
 import { title } from "@/store/title";
-import { getUsers } from "@/store/auth.js"
-import moment from "moment";
+// import { getUsers } from "@/store/auth.js"
+// import moment from "moment";
 import CirclesLoader from "@/components/CirclesLoader.vue";
+import VueCookies from 'vue-cookies'
 
 export default {
   name: "AlteraSenhaPage",
@@ -87,12 +88,12 @@ export default {
   }),
   mounted() {
     title.value = `Alterar senha`
-    this.changePassword()
+    // this.changePassword()
   },
   methods: {
     async passwordAlter() {
       this.loading = true;
-      const token = document.cookie;
+      const token = VueCookies.get('csrftoken')
       let isPasswordValid = true;
 
       if (this.new_password_confirm !== this.new_password) {
@@ -138,16 +139,16 @@ export default {
 
       this.loading = false;
     },
-    async changePassword() {
-      const { user_info } = await getUsers();
-      const last_password_change = moment(user_info.data_senha, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY');
-      const date = moment();
-      console.log('date', date)
-      const diff = date.diff(last_password_change, 'days')
-      if (diff > 180) {
-        this.attention = "Alteração de senha obrigatório!"
-      }
-    },
+    // async changePassword() {
+    //   const { user_info } = await getUsers();
+    //   const last_password_change = moment(user_info.data_senha, 'YYYY-MM-DD HH:mm:ss').format('DD/MM/YYYY');
+    //   const date = moment();
+    //   console.log('date', date)
+    //   const diff = date.diff(last_password_change, 'days')
+    //   if (diff > 180) {
+    //     this.attention = "Alteração de senha obrigatório!"
+    //   }
+    // },
     clearData() {
       this.old_password = "";
       this.new_password = "";

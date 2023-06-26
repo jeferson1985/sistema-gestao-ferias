@@ -7,7 +7,7 @@
       </svg>
       <a href="/">Voltar</a>
     </div>
-    <div class="hidden xl:flex justify-center items-center w-2/3 background">
+    <div class="hidden lg:flex justify-center items-center w-2/3 background">
       <div class="flex flex-col w-7/12">
         <p class="text-white font-bold text-4xl mt-60">
           Sunset - Sistema de gestão de férias

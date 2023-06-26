@@ -50,6 +50,7 @@ Antes de fazer o clone do repositório você precisa instalar o Vue.js em seu co
 4. Clonando o repositório.
  git clone https://github.com/jeferson1985/sistema-gestao-ferias
 5. Execute npm install para instalar as dependências.
+ npm install
 6. Após a instalação das dependências, você pode iniciar o servidor de desenvolvimento com o seguinte comando
  npm run serve
 

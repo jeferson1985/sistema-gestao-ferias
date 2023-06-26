@@ -133,6 +133,7 @@ import moment from "moment";
 import api from "@/services/api";
 import { addMessage } from "@/store/alert";
 import LoadingCircle from "@/components/LoadingCircle.vue"
+import VueCookies from 'vue-cookies'
 
 export default {
   name: "VacationDetail",
@@ -275,7 +276,7 @@ export default {
     async approveVacation() {
       this.show = true
       try {
-        const token = document.cockies;
+        const token = VueCookies.get('csrftoken')
         const id = this.$route.params.id
 
         if (this.user_info.setores[0].recursos_humanos == true) {
@@ -303,7 +304,7 @@ export default {
     async refuseVacation() {
       this.show = true
       try {
-        const token = document.cockie;
+        const token = VueCookies.get('csrftoken')
         const id = this.$route.params.id;
 
         if (this.user_info.setores[0].recursos_humanos == true) {

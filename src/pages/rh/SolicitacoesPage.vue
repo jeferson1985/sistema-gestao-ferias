@@ -6,7 +6,7 @@
     <div v-if="vacation_requests.length > 0" class="flex flex-col space-y-4">
       <div v-for="(item, index) in vacation_requests" :key="item" @click="goTo(_, index)"
       class="container relative hover:bg-gray-500 text-gray-500 font-bold hover:text-white rounded-md w-full sm:flex justify-between flex-wrap 3xl:grid 3xl:grid-rows-2 px-6 py-6 hover:cursor-pointer">
-      <div class="flex flex-col w-16">
+      <div class="flex flex-col w-24">
         <span class="flex font-bold">Matricula</span>
         <p class="flex font-light">{{ item.registration }}</p>
       </div>
@@ -53,6 +53,7 @@
 <script>
 import api from "@/services/api";
 import CirclesLoader from "@/components/CirclesLoader.vue";
+import VueCookies from 'vue-cookies'
 import { getUsers } from "@/store/auth.js"
 import { addMessage } from "@/store/alert";
 import moment from "moment";
@@ -150,7 +151,7 @@ export default {
       try {
         const item = this.vacation_requests[index];
         const id = item && item.id;
-        const token = document.cockie;
+        const token = VueCookies.get('csrftoken')
         const { user_type } = await getUsers();
         const sector_type = user_type
         if (sector_type == true) {

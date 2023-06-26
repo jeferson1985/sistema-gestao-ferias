@@ -43,6 +43,7 @@ import api from "@/services/api";
 import { addMessage } from "@/store/alert";
 import BasePage from "./BasePage.vue";
 import CirclesLoader from "@/components/CirclesLoader.vue";
+import VueCookies from 'vue-cookies'
 
 export default {
   name: "ResetConfirm",
@@ -59,7 +60,7 @@ export default {
       const uuid = this.$route.params.uuid;
       const token_params = this.$route.params.token;
       try {
-        const token = document.cookie;
+        const token = VueCookies.get('csrftoken')
         const response = await api.get(
           `/api/v1/password_reset_confirm/${uuid}/${token_params}/`,
           {
@@ -79,11 +80,11 @@ export default {
       }
     },
     async sendPassword() {
-      // this.loading = true
+      this.loading = true
       const uuid = this.$route.params.uuid;
       const token_params = this.$route.params.token;
+      const token = VueCookies.get('csrftoken')
       try {
-        const token = document.cookie;
         const response = await api.patch(
           `api/v1/accounts/password_reset_complete/`,
           {
@@ -105,7 +106,7 @@ export default {
       } catch (error) {
         addMessage("error", "Erro ao alterar senha");
       }
-      // this.loading = false
+      this.loading = false
     },
     clearData() {
       this.password = "";

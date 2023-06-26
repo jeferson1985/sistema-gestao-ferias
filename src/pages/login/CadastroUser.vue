@@ -117,6 +117,7 @@ import api from "@/services/api";
 import { addMessage } from "@/store/alert";
 import { title } from "@/store/title";
 import CirclesLoader from "@/components/CirclesLoader.vue";
+import VueCookies from 'vue-cookies'
 
 export default {
   name: "CadastroUser",
@@ -145,7 +146,7 @@ export default {
   },
   methods: {
     async createUser() {
-      const token = document.cookie;
+      const token = VueCookies.get('csrftoken')
       try {
         await api.post(
           "/api/v1/create_user/",
