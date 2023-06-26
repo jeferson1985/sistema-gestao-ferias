@@ -3,6 +3,7 @@
 ```
 Sunset é um sistema que fará a gestão de férias de empresas de médio e grande porte, usando algoritmos para simplificar e agilizar todo o processo, desde a solicitação até a aprovação final das férias dos colaboradores. Com recursos abrangentes e eficientes, o sistema oferece uma solução completa para empresas que desejam aprimorar sua gestão de férias.
 ```
+![readme](https://github.com/jeferson1985/sistema-gestao-ferias/assets/58534889/a30800e0-38ea-49eb-9ed7-b90e90cfb425)
 
 ### Tecnologias usadas
 ```
