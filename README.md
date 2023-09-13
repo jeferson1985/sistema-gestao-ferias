@@ -5,7 +5,7 @@
 <hr>
 <h1>Tecnologias usadas</h1>
 <p> Frontend:  </p>     
-<li></p>Vue.js</li>
+<li>Vue.js</li>
 <li>Javascript</li>          
 <li>Axios</li>          
 <li>Tailwindcss</li> 
